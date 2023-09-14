@@ -1,9 +1,11 @@
 "use client";
 import { Product } from "@/types";
+import useCart from "@/use-cart";
+import usePreviewModal from "@/use-preview-modal";
 import { Expand, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import Currency from "./currency";
 import IconButton from "./icon-button";
 
@@ -13,13 +15,27 @@ interface ProductCard {
 
 const ProductCard: React.FC<ProductCard> = ({ data }) => {
   const router = useRouter();
+  const previewModal = usePreviewModal();
+  const cart = useCart();
 
   const handleClick = () => {
     router.push(`/product/${data.id}`);
   };
 
+  const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    previewModal.onOpen(data);
+  };
+  const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    cart.addItem(data);
+  };
+
   return (
-    <div className="bg-white group cursor-pointer rounded-xl border p-3 space-y-3">
+    <div
+      onClick={handleClick}
+      className="bg-white group cursor-pointer rounded-xl border p-3 space-y-3"
+    >
       <div className="aspect-square rounded-xl bg-gray-100 relative">
         <Image
           src={data.images?.[0]?.url}
@@ -30,13 +46,11 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
         <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
           <div className="flex gap-x-6 justify-center">
             <IconButton
-              onClick={() => {
-                handleClick();
-              }}
+              onClick={onPreview}
               icon={<Expand size={20} className={"text-gray-600"} />}
             />
             <IconButton
-              onClick={() => {}}
+              onClick={onAddToCart}
               icon={<ShoppingBag size={20} className={"text-gray-600"} />}
             />
           </div>
