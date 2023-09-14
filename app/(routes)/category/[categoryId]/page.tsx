@@ -23,6 +23,7 @@ interface CategoryPageProps {
   };
 }
 
+// @ts-ignore
 const CategoryPage: React.FC<CategoryPageProps> = async ({
   params,
   searchParams,
