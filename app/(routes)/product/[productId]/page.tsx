@@ -1,6 +1,7 @@
 import getProduct from "@/actions/get-product";
 import getProducts from "@/actions/get-products";
 import Gallery from "@/components/gallery";
+import Info from "@/components/info";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
 
@@ -22,9 +23,11 @@ const ProductPage = async ({ params }: ProductPageProps) => {
     <div className="bg-white">
       <Container>
         <div className="px-4 py-10 ">
-          <div className="grid-cols-2 grid items-center gap-x-8">
+          <div className="grid-cols-2 grid  gap-x-8">
             <Gallery images={product.images} />
-            <div className=" px-4">Info</div>
+            <div className=" px-4">
+              <Info data={product} />
+            </div>
           </div>
           <hr className="my-10"></hr>
           <ProductList title="Related Items" items={suggestedProducts} />
